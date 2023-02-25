@@ -16,6 +16,7 @@ import sys
 import glob
 from printy import printy
 
+
 class TerminalColors:
     HEADER = "\033[95m"
     OKBLUE = "\033[94m"
@@ -27,10 +28,12 @@ class TerminalColors:
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
 
+
 class ExcelColors:
     yellow = "FFFF00"
     red = "FF0000"
     green = "00FF00"
+
 
 if __name__ == "__main__":
     time_hora_cero = datetime.strptime("00:00:00", "%H:%M:%S")
@@ -39,19 +42,18 @@ if __name__ == "__main__":
     # Leemos todos los excel que estan en la misma carpeta que el programa
     excelFiles = glob.glob(os.path.join(".", "*.xlsx"))
 
-    # ██████   █████  ██ ███    ██ ████████     ██████   ██████  ██     ██ 
-    # ██   ██ ██   ██ ██ ████   ██    ██        ██   ██ ██    ██ ██     ██ 
-    # ██████  ███████ ██ ██ ██  ██    ██        ██████  ██    ██ ██  █  ██ 
-    # ██      ██   ██ ██ ██  ██ ██    ██        ██   ██ ██    ██ ██ ███ ██ 
-    # ██      ██   ██ ██ ██   ████    ██        ██   ██  ██████   ███ ███  
+    # ██████   █████  ██ ███    ██ ████████     ██████   ██████  ██     ██
+    # ██   ██ ██   ██ ██ ████   ██    ██        ██   ██ ██    ██ ██     ██
+    # ██████  ███████ ██ ██ ██  ██    ██        ██████  ██    ██ ██  █  ██
+    # ██      ██   ██ ██ ██  ██ ██    ██        ██   ██ ██    ██ ██ ███ ██
+    # ██      ██   ██ ██ ██   ████    ██        ██   ██  ██████   ███ ███
     # Esta funcion pinta todas las celdas de la fila que indican
     # con el color que indican
-    def paint_row(sheet, row_number, color): 
+    def paint_row(sheet, row_number, color):
         for row_cells in sheet.iter_rows(min_row=row_number, max_row=row_number):
             for cell in row_cells:
-                #print('%s: cell.value=%s' % (cell, cell.value) )
-                cell.fill = PatternFill("solid", fgColor=color)      
-
+                # print('%s: cell.value=%s' % (cell, cell.value) )
+                cell.fill = PatternFill("solid", fgColor=color)
 
     # ███    ███  █████  ██ ███    ██
     # ████  ████ ██   ██ ██ ████   ██
@@ -117,8 +119,10 @@ if __name__ == "__main__":
                 ):
                     errorCount += 1
                     paint_row(sheet, key.row, ExcelColors.red)
-                    printy("Error de Informacion en fila [B]"
-                           +str(key.row)+"@ (faltan datos)", "r>")
+                    printy(
+                        f"Error de Informacion en fila [r>B]{str(key.row)}@ (faltan datos)",
+                        predefined="r>",
+                    )
                     continue
 
                 dateTime_hora_salida = datetime.strptime(values[19].value, "%H:%M:%S")
@@ -196,8 +200,10 @@ if __name__ == "__main__":
                     if horasNocturnas > 10:
                         errorCount += 1
                         paint_row(sheet, key.row, ExcelColors.red)
-                        printy("Error de Informacion en fila [B]"
-                               +str(key.row)+"@ (demasiadas horas nocturnas)", "r>")
+                        printy(
+                            f"Error de Informacion en fila [r>B]{str(key.row)}@ (demasiadas horas nocturnas)",
+                            predefined="r>",
+                        )
 
                 # ██   ██ ██████  ███████     ███████ ██   ██ ████████ ██████   █████
                 # ██   ██ ██   ██ ██          ██       ██ ██     ██    ██   ██ ██   ██
@@ -213,8 +219,10 @@ if __name__ == "__main__":
                 if horasExtra >= 7:
                     errorCount += 1
                     paint_row(sheet, key.row, ExcelColors.red)
-                    printy("Error de Informacion en fila [B]"
-                            +str(key.row)+"@ (demasiadas horas extra)", "r>")
+                    printy(
+                        f"Error de Informacion en fila [r>B]{str(key.row)}@ (demasiadas horas extra)",
+                        predefined="r>",
+                    )
                     continue
 
                 sheet[f"AC" + str(key.row)].value = horasExtra
@@ -232,4 +240,3 @@ if __name__ == "__main__":
         # END for loop files
 
         sys.exit()
-
