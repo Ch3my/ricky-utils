@@ -1,11 +1,12 @@
 # INSTALL DEPENDENCIES
 # pip install openpyxl
+# pip install printy
 
 # Helpful resources
 # https://stackoverflow.com/questions/42974450/iterate-over-worksheets-rows-columns
 
 import openpyxl
-from openpyxl.styles import PatternFill, colors
+from openpyxl.styles import PatternFill
 
 from datetime import datetime
 from datetime import timedelta
@@ -13,6 +14,7 @@ from datetime import timedelta
 import os
 import sys
 import glob
+from printy import printy
 
 class TerminalColors:
     HEADER = "\033[95m"
@@ -115,16 +117,8 @@ if __name__ == "__main__":
                 ):
                     errorCount += 1
                     paint_row(sheet, key.row, ExcelColors.red)
-                    print(
-                        TerminalColors.ERR
-                        + "Error de Informacion en fila "
-                        + TerminalColors.BOLD
-                        + str(key.row)
-                        + TerminalColors.ENDC
-                        + TerminalColors.ERR
-                        + " (faltan datos)"
-                        + TerminalColors.ENDC
-                    )
+                    printy("Error de Informacion en fila [B]"
+                           +str(key.row)+"@ (faltan datos)", "r>")
                     continue
 
                 dateTime_hora_salida = datetime.strptime(values[19].value, "%H:%M:%S")
@@ -202,16 +196,8 @@ if __name__ == "__main__":
                     if horasNocturnas > 10:
                         errorCount += 1
                         paint_row(sheet, key.row, ExcelColors.red)
-                        print(
-                            TerminalColors.ERR
-                            + "Error de Informacion en fila "
-                            + TerminalColors.BOLD
-                            + str(key.row)
-                            + TerminalColors.ENDC
-                            + TerminalColors.ERR
-                            + " (demasiadas horas nocturnas). "
-                            + TerminalColors.ENDC
-                        )
+                        printy("Error de Informacion en fila [B]"
+                               +str(key.row)+"@ (demasiadas horas nocturnas)", "r>")
 
                 # ██   ██ ██████  ███████     ███████ ██   ██ ████████ ██████   █████
                 # ██   ██ ██   ██ ██          ██       ██ ██     ██    ██   ██ ██   ██
@@ -227,16 +213,8 @@ if __name__ == "__main__":
                 if horasExtra >= 7:
                     errorCount += 1
                     paint_row(sheet, key.row, ExcelColors.red)
-                    print(
-                        TerminalColors.ERR
-                        + "Error de Informacion en fila "
-                        + TerminalColors.BOLD
-                        + str(key.row)
-                        + TerminalColors.ENDC
-                        + TerminalColors.ERR
-                        + " (demasiadas horas extra). "
-                        + TerminalColors.ENDC
-                    )
+                    printy("Error de Informacion en fila [B]"
+                            +str(key.row)+"@ (demasiadas horas extra)", "r>")
                     continue
 
                 sheet[f"AC" + str(key.row)].value = horasExtra
